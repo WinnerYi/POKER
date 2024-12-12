@@ -42,7 +42,7 @@ bool HasThreeOfAKind(Hand hand);
 bool HasOnePair(Hand hand);
 bool IsTwoPairs(Hand hand);
 bool IsFullHouse(Hand hand);
-void BubbleSwap(Hand hand) { // ¥Ñ¤p¨ì¤j
+void BubbleSwap(Hand hand) { // ç”±å°åˆ°å¤§
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4-i; j++) {
       if (BiggerThan(hand[j], hand[j+1])) {
@@ -99,7 +99,7 @@ Card FullLargest(Hand hand) {
   Card biggest = FindLargest(fullhou);
   return biggest;
 }
-int TwoPairFace1(Hand hand) { // §ä³Ì¤j¹ïªº­±­È
+int TwoPairFace1(Hand hand) { // æ‰¾æœ€å¤§å°çš„é¢å€¼
   Card twopair[5] = {0};
   BubbleSwap(hand);
   int four_space = 0;
@@ -114,7 +114,7 @@ int TwoPairFace1(Hand hand) { // §ä³Ì¤j¹ïªº­±­È
   int face1 = twopair[3].face;
   return face1;
 }
-int TwoPairFace2(Hand hand) { // §ä²Ä¤G¤j¹ïªº­±­È
+int TwoPairFace2(Hand hand) { // æ‰¾ç¬¬äºŒå¤§å°çš„é¢å€¼
   Card twopair[5] = {0};
   BubbleSwap(hand);
   int four_space = 0;
@@ -221,13 +221,13 @@ int EvaluateHand(Hand hand) {
 }
 Card EvaluateLargest(Hand hand, int score) {
   Card largest;
-  if (score == 9) largest = FindLargest(hand); // ®äªá¶¶
-  else if (score == 8) largest = FourLargest(hand); // ÅK¤ä
-  else if (score == 7) largest =  FullLargest(hand); // ¸¬Äª
-  else if (score == 6) largest =  FindLargest(hand); // ®äªá
-  else if (score == 5) largest  =  FindLargest(hand); // ¶¶¤l
+  if (score == 9) largest = FindLargest(hand); // æ¡èŠ±é †
+  else if (score == 8) largest = FourLargest(hand); // éµæ”¯
+  else if (score == 7) largest =  FullLargest(hand); // è‘«è˜†
+  else if (score == 6) largest =  FindLargest(hand); // æ¡èŠ±
+  else if (score == 5) largest  =  FindLargest(hand); // é †å­
   else if (score == 4) largest = ThreeLargest(hand);
-  else if (score == 3) largest = TwoPairLargest2(hand); // ¸û¤j¹ï¤lªº¸û¤jµP
+  else if (score == 3) largest = TwoPairLargest2(hand); // è¼ƒå¤§å°å­çš„è¼ƒå¤§ç‰Œ
   else if (score == 2) largest = OnePairLargest(hand);
   else if (score == 1)largest = FindLargest(hand);
   return largest;
@@ -237,17 +237,17 @@ void Play(Hand hand1, Hand hand2) {
   int score2 = EvaluateHand(hand2);
   Card maxcard1 =  EvaluateLargest(hand1, score1);
   Card maxcard2 = EvaluateLargest(hand2, score2);
-  // µP«¬¦WºÙÂà´«
+  // ç‰Œå‹åç¨±è½‰æ›
   char handType1[20], handType2[20];
   HandType(score1, handType1);
   HandType(score2, handType2);
   handType2[0] += ('a' - 'A');
 
-  // ªá¦â¦WºÙÂà´«
+  // èŠ±è‰²åç¨±è½‰æ›
   char suit1[10], suit2[10];
   SwitchSuit(maxcard1.suit, suit1);
   SwitchSuit(maxcard2.suit, suit2);
-  // ÂI¼Æ¦WºÙÂà´«
+  // é»æ•¸åç¨±è½‰æ›
   char face1[10], face2[10];
   SwitchFace(maxcard1.face, face1);
   SwitchFace(maxcard2.face, face2);
@@ -257,7 +257,7 @@ void Play(Hand hand1, Hand hand2) {
   char final2[100];
   sprintf(final2, "%s of %s", face2, suit2);
 
-  // §ä¸û¤p¹ï¤lªº¸û¤jµP
+  // æ‰¾è¼ƒå°å°å­çš„è¼ƒå¤§ç‰Œ
   if (score1 == 3) {
     Card sec_lar1 = TwoPairLargest1(hand1);
     char pair_face1[20];
@@ -280,13 +280,13 @@ void Play(Hand hand1, Hand hand2) {
     strcat(final2, " of ");
     strcat(final2, pair_suit2);
   }
-  // ¦pªG³£¬Otwo pairs
+  // å¦‚æœéƒ½æ˜¯two pairs
   if (score1 == 3 && score2 == 3) {
     int face1_1, face1_2, face2_1, face2_2;
-    face1_1 = TwoPairFace1(hand1); // ª±®a¤@ ²Ä¤@¹ï
-    face1_2 = TwoPairFace2(hand1); // ª±®a¤@ ²Ä¤G¹ï
-    face2_1 = TwoPairFace1(hand2); // ª±®a¤G ²Ä¤@¹ï
-    face2_2 = TwoPairFace2(hand2); // ª±®a¤@ ²Ä¤@¹ï
+    face1_1 = TwoPairFace1(hand1); // ç©å®¶ä¸€ ç¬¬ä¸€å°
+    face1_2 = TwoPairFace2(hand1); // ç©å®¶ä¸€ ç¬¬äºŒå°
+    face2_1 = TwoPairFace1(hand2); // ç©å®¶äºŒ ç¬¬ä¸€å°
+    face2_2 = TwoPairFace2(hand2); // ç©å®¶ä¸€ ç¬¬ä¸€å°
     if (face1_1 > face2_1) {
       printf("%s (%s) wins over %s (%s).",
           handType1, final1, handType2, final2);
@@ -322,7 +322,7 @@ void Play(Hand hand1, Hand hand2) {
 
     }
   }
-  // ¤ñ¸û¨â¤âµP
+  // æ¯”è¼ƒå…©æ‰‹ç‰Œ
   else if (score1 > score2) {
     printf("%s (%s) wins over %s (%s).",
         handType1, final1, handType2, final2);
@@ -334,7 +334,7 @@ void Play(Hand hand1, Hand hand2) {
   }
 
   else if (score1 == score2) {
-    // ¦pªGµP«¬¬Û¦P¡A«h¶i¤@¨B¤ñ¸û³Ì¤jµP
+    // å¦‚æœç‰Œå‹ç›¸åŒï¼Œå‰‡é€²ä¸€æ­¥æ¯”è¼ƒæœ€å¤§ç‰Œ
     if (BiggerThan(maxcard1, maxcard2)) {
       printf("%s (%s) wins over %s (%s).",
           handType1, final1, handType2, final2);
@@ -495,7 +495,7 @@ bool IsFlush(Hand hand) {
   }
   return true;
 }
-int OrderSpecial(Face face) { // A³Ì¤p
+int OrderSpecial(Face face) { // Aæœ€å°
   if (face == ACE)  return 1;
   else if (face == DEUCE) return 2;
   else if (face == THREE) return 3;
